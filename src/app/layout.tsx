@@ -16,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        className="text-gray-300"
       >
         <Header />
         {children}

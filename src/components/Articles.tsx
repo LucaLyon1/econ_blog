@@ -1,28 +1,34 @@
-function Articles() {
+import { getLastestArticles } from "@/lib/ArticleActions";
+import { slugify } from "@/lib/slug";
+import Link from "next/link";
+
+const articleDescription = (body: string) => {
+    const description: string[] = [];
+    const arr = body.split(" ");
+    for (let i = 0; i < 40; i++) {
+        description.push(arr[i]);
+    }
+    description.push("...");
+    return description.join(" ");
+}
+
+
+async function Articles() {
+    const articles = await getLastestArticles();
     return (
-        <div className="md:w-4/5 w-5/6 m-auto grid md:grid-cols-2 md:grid-rows-3 gap-4 grid-cols-1">
-            <div className="bg-slate-600 
-            col-span-1 
-            row-span-3
-            min-h-[200px] 
-            justify-self-stretch">
-                Main
-            </div>
-            <div className="bg-slate-600 
-            h-[200px] 
-            justify-self-stretch">
-                Second
-            </div>
-            <div className="bg-slate-600 
-            h-[200px] 
-            justify-self-stretch">
-                Third
-            </div>
-            <div className="bg-slate-600 
-            h-[200px] 
-            justify-self-stretch">
-                Fourth
-            </div>
+        <div className="flex flex-col gap-16 w-5/6">
+            {articles.map((art) => {
+                return (
+                    <Link href={`/${slugify(art.title)}`} key={art.id}>
+                        <div className="flex flex-col gap-2 border border-transparent hover:border-gray-700 transition-all p-4 duration-300 cursor-pointer rounded-lg">
+                            <h1 className="text-2xl font-semibold">{art.title}</h1>
+                            <p className="text-justify">{articleDescription(art.body)}</p>
+                            <p className="text-gray-400">{art.author} - {art.date.toLocaleDateString('en-GB')}</p>
+                        </div>
+                    </Link>
+                )
+            })}
+
         </div>
     );
 }
