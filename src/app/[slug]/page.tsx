@@ -15,7 +15,7 @@ async function Page({ params }: { params: Promise<{ slug: string }> }) {
                 <h1 className="text-3xl">{article?.title}</h1>
                 <p className="text-gray-400">{article?.author} - {article?.date.toLocaleDateString('en-GB')}</p>
             </span>
-            <div className="prose text-gray-300">
+            <div className="prose prose-invert text-gray-300">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{article?.body}</ReactMarkdown>
             </div>
         </div>

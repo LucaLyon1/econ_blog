@@ -1,6 +1,7 @@
 'use client';
 
 import { publishArticle } from "@/lib/ArticleActions";
+import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 
 function Page() {
@@ -9,6 +10,10 @@ function Page() {
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (title == "") {
+            alert("need a title");
+            return;
+        }
         publishArticle({
             author: "Luca Savio",
             title,
@@ -18,10 +23,16 @@ function Page() {
     }
     return (
         <div className="w-screen h-screen flex items-center justify-center">
-            <form className="border border-slate-600 flex flex-col gap-4 p-4 rounded-sm w-1/2" onSubmit={onSubmit}>
-                <input onChange={(e) => setTitle(e.target.value)} type="text" name="title" id="body" />
-                <textarea onChange={(e) => setBody(e.target.value)} name="body" id="body" className="h-[50vh]"></textarea>
-                <button type="submit">Submit article</button>
+            <form className="border border-slate-600 flex flex-col gap-4 p-4 rounded-sm w-full h-full" onSubmit={onSubmit}>
+                <input className="bg-[#0E1117] border border-gray-800"
+                    onChange={(e) => setTitle(e.target.value)} type="text" name="title" id="body" />
+                <MDEditor
+                    value={body}
+                    onChange={setBody}
+                />
+                {/*<MDEditor.Markdown source={body} style={{ whiteSpace: 'pre-wrap' }} />*/}
+                <button className="p-2 hover:bg-gray-700 transition-all m-auto border border-gray-800 rounded-sm"
+                    type="submit">Submit article</button>
             </form>
         </div>
     );

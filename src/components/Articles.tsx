@@ -1,10 +1,12 @@
 import { getLastestArticles } from "@/lib/ArticleActions";
+import { markdownToPlainText } from "@/lib/markdownUtils";
 import { slugify } from "@/lib/slug";
 import Link from "next/link";
 
 const articleDescription = (body: string) => {
+    let plainText = markdownToPlainText(body, 50)
     const description: string[] = [];
-    const arr = body.split(" ");
+    const arr = plainText.split(" ");
     for (let i = 0; i < 40; i++) {
         description.push(arr[i]);
     }
